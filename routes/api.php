@@ -5,3 +5,4 @@ use App\Http\Controllers\UserController;
 
 // API Resource route for users
 Route::apiResource('users', UserController::class);
+Route::post('/users/random', [UserController::class, 'createRandomUser']);

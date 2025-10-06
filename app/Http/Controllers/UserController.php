@@ -65,4 +65,26 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message' => 'User deleted successfully']);
     }
+
+    // POST: Create random user using Faker
+    public function createRandomUser()
+    {
+        $faker = \Faker\Factory::create();
+
+        $name = $faker->name; // human-like name
+        $email = strtolower(str_replace(' ', '.', $name)) . '@example.com'; // email matches name
+        $password = $faker->password(8, 12);
+
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+        ]);
+
+        return response()->json([
+            'message' => 'Random user created successfully!',
+            'plain_password' => $password,
+            'user' => new UserResource($user),
+        ]);
+    }
 }
